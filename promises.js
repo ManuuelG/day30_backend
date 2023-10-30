@@ -6,7 +6,7 @@ const app = express()
 
 app.get('/breed', (req, res) =>
   fetch('https://dog.ceo/api/breeds/list/all')
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
       res.json(data)
     })
@@ -17,7 +17,7 @@ app.get('/breed', (req, res) =>
 
 app.get('/randomImage', (req, res) =>
   fetch('https://dog.ceo/api/breeds/image/random')
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
       res.json(data)
     })
@@ -26,15 +26,16 @@ app.get('/randomImage', (req, res) =>
     })
 )
 
-app.get('/listImages', (req, res) =>
-  fetch('https://dog.ceo/api/breed/hound/images')
-    .then(response => response.json())
+app.get('/listImages/:race', (req, res) => {
+  const race = req.params.race
+  fetch(`https://dog.ceo/api/breed/${race}/images`)
+    .then(res => res.json())
     .then(data => {
       res.json(data)
     })
     .catch(error => {
       console.log(error)
     })
-)
+})
 
 app.listen(4000, () => console.log('server on...'))
